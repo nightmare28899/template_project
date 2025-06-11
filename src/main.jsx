@@ -7,9 +7,10 @@ import GifLoader from "@/components/GifLoader";
 
 const theme = {
   token: {
-    guinda: "#671648",
+    guinda: "#4A001F",
+    purple: "#6A0F49",
     pink: "#FFC3D0",
-    gray: "#F3F4F6",
+    gray: "#f5f6f7",
     colorSuccess: "#10B981",
     colorWarning: "#F59E0B",
     colorError: "#EF4444",
