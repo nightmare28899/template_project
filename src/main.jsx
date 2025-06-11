@@ -6,6 +6,7 @@ import App from "@/App";
 import GifLoader from "@/components/GifLoader";
 
 const theme = {
+  // Colores globales
   token: {
     guinda: "#4A001F",
     purple: "#6A0F49",
