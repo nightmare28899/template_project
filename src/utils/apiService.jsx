@@ -3,7 +3,6 @@ import { showNoti } from '@/components/comunes/Alerts';
 import { notification } from 'antd';
 import { deleteCookie } from 'cookies-next';
 
-
 const onLoginView = async() => {
     notification.destroy();
     localStorage.clear();
@@ -34,9 +33,8 @@ export const instance = () => {
 
             // if (error?.response?.status === 400) {
             //     showNoti('error','Error en la petición','Contacte al administrador');
-                
             // }
-            
+
             if (error?.response?.status === 500) {
                 showNoti('error','Error',error?.response?.data?.message);
             }
@@ -46,7 +44,7 @@ export const instance = () => {
             }
             if(error?.response?.status === 422){
                 console.log(error?.response?.data)
-                
+
             }
 
             return Promise.reject(error)

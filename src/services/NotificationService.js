@@ -1,4 +1,4 @@
-import {useNotification} from '@/context/NotificationContext';
+import {useNotification} from '@/context/NotificationContext.jsx';
 
 export const useNotificationService = () => {
     const notification = useNotification();

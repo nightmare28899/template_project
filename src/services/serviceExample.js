@@ -7,5 +7,5 @@ import API from './../utils/apiService';
         }
 //example
 export async function getFicha() {
-        return await API().get('projectsSheets');
+        return await API().get('projectsSheets', body);
 }
