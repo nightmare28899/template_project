@@ -1,8 +1,8 @@
 import React from "react";
-import Gif from "@/assets/images/Logo.gif";
+import Gif from "@/assets/images/padron-beneficiarios-logo.gif";
 import loaderStore from "@/store/loaderStore";
 
-const GifLoader = () => {
+const GifLoader = ({showStatus = false}) => {
     const {loader} = loaderStore();
 
     const LoaderComponent = () => {
@@ -13,7 +13,7 @@ const GifLoader = () => {
         );
     }
 
-    return loader ? <LoaderComponent/> : null;
+    return loader || showStatus ? <LoaderComponent/> : null;
 };
 
 const styles = {
