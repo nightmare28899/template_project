@@ -5,8 +5,6 @@ import useMenuComponent, {getMenuItems} from "@/hooks/useMenuComponent";
 import Sider from "antd/es/layout/Sider";
 
 const MenuComponent = ({main}) => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const role = user?.rol;
     const {handleMenuClick, collapsed, toggleCollapsed, currentPath} = useMenuComponent();
     const closeItem = [
         {

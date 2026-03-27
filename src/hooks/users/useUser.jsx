@@ -77,22 +77,22 @@ const useUser = ({recoverPassForm}) => {
 
     useEffect(() => {
         if (userLoading) {
-            setStateUser({
-                ...stateUser,
+            setStateUser((prev) => ({
+                ...prev,
                 loadingTable: true,
-            });
+            }));
             return;
         }
 
         if (userError) {
             console.error("Error fetching user data: ", userError);
-            setStateUser({
-                ...stateUser,
+            setStateUser((prev) => ({
+                ...prev,
                 loadingTable: false,
                 data: [],
                 originalData: [],
                 totalPage: 0,
-            });
+            }));
             return;
         }
 
@@ -103,21 +103,21 @@ const useUser = ({recoverPassForm}) => {
                     ? responseUser
                     : [];
 
-            setStateUser({
-                ...stateUser,
+            setStateUser((prev) => ({
+                ...prev,
                 data: userData,
                 originalData: userData,
                 totalPage: responseUser.total || 0,
                 loadingTable: false,
-            });
+            }));
         } else {
-            setStateUser({
-                ...stateUser,
+            setStateUser((prev) => ({
+                ...prev,
                 data: [],
                 originalData: [],
                 totalPage: 0,
                 loadingTable: false,
-            });
+            }));
         }
     }, [responseUser, userLoading, userError]);
 

@@ -44,7 +44,7 @@ const CustomAddTextOnList = ({
     const newData = [...currentItems, trimmedValue];
     updateData(newData);
     setInputValue("");
-  }, [inputValue, currentItems, updateData, maxItems]);
+  }, [inputValue, currentItems, maxItems, showErrorMessage, updateData]);
 
   const handlePressEnter = useCallback(
     (e) => {

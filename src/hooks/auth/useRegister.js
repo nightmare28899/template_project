@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form,} from "antd";
 import { CheckOutlined, CloseOutlined, EditOutlined, } from "@ant-design/icons";
 import { useFetch, useOptions } from "@/hooks";
@@ -47,10 +47,11 @@ const useRegister = () => {
     const {
         data: responsePadrones,
         error: padronesError,
+        refetch,
     } = useFetch(urlPadrones, {})
     useOptions(responsePadrones, padronesError, "padronesOptions", setStateSolicitud);
 
-    const { post, del} = makePetitions;
+    const { post } = makePetitions;
 
     const genderOptions = [
         { label: 'Hombre', value: 'H' },
@@ -65,7 +66,7 @@ const useRegister = () => {
     } 
     
     async function handleCreateSolicitud() {
-        const values = await form.getFieldsValue();
+        const values = await form.validateFields();
         const body = new FormData();
 
         Object.entries(values).forEach(([key, value]) => {
@@ -90,7 +91,7 @@ const useRegister = () => {
                 showModal: false,
                 currentData: null,
             });
-            refetch(stateSolicitud.currentPage, stateSolicitud.pageSize)
+            refetch();
         } catch (error) {
             const {response} = error;
             if (!response) return;
@@ -149,7 +150,6 @@ const useRegister = () => {
 
     const handleCPChange = (e) => {
         const cpValue = e.target.value;
-        console.log(locationData)
         if (cpValue.length === 5) {
             getLocationData(cpValue);
         } if (cpValue.length !== 5) {

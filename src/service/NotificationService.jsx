@@ -1,96 +1,81 @@
-import {Typography, Button} from "antd";
-import {CopyOutlined} from "@ant-design/icons";
-import {useNotification} from '@/context/NotificationContext';
+import { App, message, notification } from 'antd';
+import { Typography } from 'antd';
+import { useCallback } from 'react';
 
-const {Text} = Typography;
+const { Text } = Typography;
+
+const normalizeContent = (content, fallback) => {
+  if (Array.isArray(content)) {
+    return content.join(', ');
+  }
+
+  if (typeof content === 'string') {
+    return content;
+  }
+
+  if (content && typeof content === 'object') {
+    return content.message || fallback;
+  }
+
+  return fallback;
+};
 
 export const useNotificationService = () => {
-    const notification = useNotification();
+  const antdApp = App.useApp();
+  const messageApi = antdApp?.message || message;
+  const notificationApi = antdApp?.notification || notification;
 
-    const showErrorMessage = (content, title = "Error", duration = 2.5, placement = "bottomRight") => {
-        notification.destroy();
+  const showSuccessMessage = useCallback(
+    (content, duration = 3) => {
+      messageApi.success({
+        content: normalizeContent(content, 'Operación realizada con éxito.'),
+        duration,
+      });
+    },
+    [messageApi]
+  );
 
-        notification.error({
-            message: title,
-            description: content,
-            duration: duration,
-            placement: placement,
-        });
-    };
+  const showErrorMessage = useCallback(
+    (content, error) => {
+      const fallback = error?.message || 'Ocurrió un error inesperado.';
 
-    const showSuccessMessage = (content, title = "Éxito", duration = 2.5, placement = "bottomRight") => {
-        notification.destroy();
+      messageApi.error({
+        content: normalizeContent(content, fallback),
+      });
+    },
+    [messageApi]
+  );
 
-        notification.success({
-            message: title,
-            description: content,
-            duration: duration,
-            placement: placement,
-        });
-    };
+  const showPasswordMessage = useCallback(
+    (
+      title,
+      description,
+      duration = 0,
+      placement = 'topRight',
+      password = ''
+    ) => {
+      notificationApi.open({
+        message: title,
+        description: (
+          <div>
+            <div>{description}</div>
+            {password ? (
+              <Text copyable code style={{ marginTop: 8, display: 'inline-block' }}>
+                {password}
+              </Text>
+            ) : null}
+          </div>
+        ),
+        duration,
+        placement,
+      });
+    },
+    [notificationApi]
+  );
 
-    const showWarningMessage = (content, title = "Advertencia", duration = 2.5, placement = "bottomRight") => {
-        notification.destroy();
-
-        notification.warning({
-            message: title,
-            description: content,
-            duration: duration,
-            placement: placement,
-        });
-    };
-
-    const showPasswordMessage = (title = "", content, duration = 2.5, placement = "bottomRight", password = "") => {
-        notification.destroy();
-
-        notification.success({
-            message: title,
-            description: (
-                <div>
-                    <p>{content}</p>
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            marginTop: 8,
-                            gap: 8,
-                        }}
-                    >
-                        <Text code
-                              copyable={{
-                                  text: password,
-                                  onCopy: () => showCopySuccess()
-                              }}
-                        >
-                            {password}
-                        </Text>
-                        <Button
-                            type="link"
-                            size="small"
-                            icon={<CopyOutlined/>}
-                            onClick={() => {
-                                navigator.clipboard.writeText(password).then();
-                                showCopySuccess()
-                            }}
-                        >
-                            Copiar
-                        </Button>
-                    </div>
-                </div>
-            ),
-            duration,
-            placement,
-        });
-    };
-
-    const showCopySuccess = () => {
-        notification.success({
-            message: "¡Copiado!",
-            description: "La contraseña se copió al portapapeles",
-            placement: "bottomRight",
-            duration: 2,
-        });
-    };
-
-    return {showErrorMessage, showSuccessMessage, showWarningMessage, showPasswordMessage};
+  return {
+    showSuccessMessage,
+    showErrorMessage,
+    showPasswordMessage,
+  };
 };

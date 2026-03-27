@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import useMenuStore from "@/store/menuStore";
 import useMenuComponent, {getMenuItems} from "@/hooks/useMenuComponent";
-import logo from "@/assets/images/padron-beneficiarios.png";
+import logo from "@/assets/images/telefericologo.png";
 
 const Sidebar = () => {
     const user = JSON.parse(localStorage.getItem("user"));

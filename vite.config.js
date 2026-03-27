@@ -1,16 +1,41 @@
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'path'
+import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-    plugins: [react()],
-    build: {
-        outDir: 'build',
-    },
-    resolve: {
-        alias: {
-            // eslint-disable-next-line no-undef
-            '@': path.resolve(__dirname, './src'),
+  plugins: [react()],
+  build: {
+    outDir: 'build',
+    chunkSizeWarningLimit: 650,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) {
+            return
+          }
+
+          if (id.includes('antd') || id.includes('@ant-design')) {
+            return 'antd-vendor'
+          }
+
+          if (id.includes('@tanstack')) {
+            return 'query-vendor'
+          }
+
+          if (id.includes('react-router')) {
+            return 'router-vendor'
+          }
+
+          if (id.includes('react')) {
+            return 'react-vendor'
+          }
         },
+      },
     },
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
 })
