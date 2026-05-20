@@ -1,9 +1,7 @@
 import { create } from 'zustand';
 
-const useLoaderStore = create((set) => ({
-  isLoading: false,
-  showLoader: () => set({ isLoading: true }),
-  hideLoader: () => set({ isLoading: false }),
+export const useLoaderStore = create((set) => ({
+    loader: false,
+    showLoader: () => set({ loader: true }),
+    hideLoader: () => set({ loader: false }),
 }));
-
-export default useLoaderStore;

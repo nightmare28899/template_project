@@ -1,11 +1,14 @@
 import React from 'react';
 import {Layout, Menu} from 'antd';
 import {LoginOutlined} from "@ant-design/icons";
-import useMenuComponent, {getMenuItems} from "@/hooks/useMenuComponent";
+import {useMenuComponent} from "@/hooks";
 import Sider from "antd/es/layout/Sider";
+import "@/assets/styles/components.css";
 
 const MenuComponent = ({main}) => {
-    const {handleMenuClick, collapsed, toggleCollapsed, currentPath} = useMenuComponent();
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = user?.rol;
+    const {handleMenuClick, collapsed, setCollapsed, currentPath, menuItems} = useMenuComponent(role);
     const closeItem = [
         {
             key: '/logout',
@@ -13,36 +16,32 @@ const MenuComponent = ({main}) => {
             icon: <LoginOutlined/>,
         },
     ];
-    const items = getMenuItems();
 
     return (
-        <Layout style={styles.layout}>
+        <Layout className="menu-layout">
             <Sider
                 breakpoint="lg"
                 collapsible
                 collapsed={collapsed}
-                onCollapse={toggleCollapsed}
+                onCollapse={setCollapsed}
                 width={256}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    backgroundColor: '#fff',
-                }}
+                collapsedWidth={80}
+                className="menu-sider"
             >
-                <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                    <div style={{flex: 1, overflowY: 'auto'}}>
+                <div className="menu-sider-inner">
+                    <div className="menu-sider-scroll">
                         <Menu
-                            defaultSelectedKeys={[currentPath]}
+                            selectedKeys={[currentPath]}
                             mode="inline"
                             theme="light"
                             inlineCollapsed={collapsed}
                             onClick={handleMenuClick}
                             className="container-menu"
-                            items={items || []}
+                            items={menuItems || []}
                         />
                     </div>
 
-                    <div>
+                    <div className="menu-logout-wrapper">
                         <Menu
                             theme="light"
                             mode="inline"
@@ -55,25 +54,12 @@ const MenuComponent = ({main}) => {
             </Sider>
 
             <Layout>
-                <div style={{flex: 1, overflowY: 'auto'}}>
+                <div className="menu-sider-overflow">
                     {main.body}
                 </div>
             </Layout>
         </Layout>
     );
-};
-
-const styles = {
-    layout: {
-        backgroundColor: '#fff',
-    },
-    logoutContainer: {
-        padding: '16px',
-        borderTop: '1px solid #f0f0f0',
-    },
-    logoutButton: {
-        width: '100%',
-    },
 };
 
 export default MenuComponent;

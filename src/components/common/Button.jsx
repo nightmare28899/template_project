@@ -1,40 +1,32 @@
 import React from "react";
-import {Button} from "antd";
+import { Button } from "antd";
+import "@/assets/styles/components.css";
 
-const ButtonComponent = ({textButton = '', action = null}) => {
+const ButtonComponent = (
+    {
+        textButton = '', 
+        action = null, 
+        disabled = false,
+        icon = null
+    }
+) => {
 
     return (
-        <div style={styles.buttonContainer}>
-            <div style={styles.buttonWrapper}>
+        <div className="btn-component-container">
+            <div className="btn-component-wrapper">
                 <Button
                     htmlType="submit"
                     type="primary"
                     block
-                    style={styles.button}
                     onClick={action}
+                    disabled={disabled}
+                    icon={icon}
                 >
                     {textButton}
                 </Button>
             </div>
         </div>
     )
-}
-
-const styles = {
-    buttonContainer: {
-        display: "flex",
-        justifyContent: "flex-end",
-    },
-    buttonWrapper: {
-        minWidth: 150,
-        maxWidth: 250,
-        width: "100%",
-    },
-    button: {
-        backgroundColor: "#4A001F",
-        borderColor: "#4A001F",
-        borderRadius: 8,
-    },
 }
 
 export default ButtonComponent;

@@ -46,14 +46,10 @@ html, body, #root {
     --black: #000000;
     --blue: #1946bb;
     --light-blue: #4b73f0;
-    --guinda: #4a001f;
-    /* --guinda: #8d949e; */
+    --guinda: #4A001F;
     --rosaClaro: #ffe6ec;
-    /* --rosaClaro: #ccd0d5; */
     --rosaAlert: #ffe6ec;
-    /* --rosaAlert: #ccd0d5; */
     --morado: #6a0f49;
-    /* --morado: #8d949e; */
     --orage: #fdde80;
     --warning: #f9e8c6;
     --light-orange: #ffaf17;
@@ -98,8 +94,7 @@ html, body, #root {
 * {
     margin: 0px;
     padding: 0px;
-    /* border:1px solid red; */
-    font-family: "Gibson-Regular";
+    font-family: "Gibson-Regular", sans-serif;
     letter-spacing: 1.1px;
 }
 
@@ -119,13 +114,6 @@ body {
     font-family: "Gibson-Regular", serif;
     letter-spacing: 1.1px;
     font-weight: 500;
-    /* overflow: scroll;  */
-}
-
-.backgrounPlaca {
-    background-image: url(../../assets/images/placa.png);
-    background-size: cover;
-    height: 25px;
 }
 
 .my-menu-text-black .ant-menu-item,
@@ -167,7 +155,7 @@ body {
 }
 
 :where(.css-dev-only-do-not-override-1d4w9r2).ant-layout-sider .ant-layout-sider-children {
-    height: 86%;
+    height: 100%;
     margin-top: -0.1px;
     padding-top: 0.1px;
     border: none;
@@ -198,12 +186,8 @@ body {
     margin-bottom: 20px;
 }
 
-.menu-item {
-    /* Estilos generales para los elementos del menú */
-}
-
 .menu-logout {
-    margin-top: auto; /* Empuja el elemento hacia abajo */
+    margin-top: auto; 
 }
 
 :where(.css-dev-only-do-not-override-1d4w9r2).ant-btn {
@@ -240,8 +224,8 @@ body {
 }
 
 :where(.css-1d4w9r2).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover {
-    color: gray;
-    border-color: white;
+    color: #575757;
+    border-color: #d9d9d9;
     background: white;
 }
 
@@ -251,7 +235,7 @@ body {
 
 :where(.css-dev-only-do-not-override-1d4w9r2).ant-btn-color-dangerous.ant-btn-variant-solid {
     color: #fff;
-    background: #ff4d4f;
+    background: #d93639;
     border-radius: 4px;
 }
 
@@ -277,13 +261,6 @@ body {
     padding-bottom: 0;
 }
 
-:where(.css-dev-only-do-not-override-1d4w9r2).ant-btn {
-    font-size: 14px;
-    height: 32px;
-    padding: 0px 15px;
-    border-radius: 6px;
-}
-
 :where(.css-dev-only-do-not-override-o04ybc).ant-layout {
     display: flex;
     flex: 0;
@@ -299,3 +276,28 @@ body {
     min-height: 0;
 }
 
+.card-container {
+    width: 220px;
+    max-width: 220px;
+    height: 200px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px 0 30px 96px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.card-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.colorButton {
+    background: var(--guinda);
+}
+
+.colorButton:hover {
+    background: var(--guinda) !important;
+}

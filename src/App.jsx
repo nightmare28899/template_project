@@ -1,31 +1,43 @@
-import { App as AntdApp, Layout } from 'antd';
-import { useIsFetching, useIsMutating } from '@tanstack/react-query';
-import GlobalLoader from './components/GlobalLoader';
-import RefreshTokenModal from './components/RefreshTokenModal';
-import AppRoutes from './routes/AppRoutes';
-import useLoaderStore from './store/loaderStore';
+import React, { lazy, Suspense } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { App as AntdApp } from "antd";
+import { NotificationContext } from "./context/NotificationContext";
+import GifLoader from "./components/GifLoader";
+import LayoutAuth from "./components/layouts/LayoutAuth";
+import LayoutBase from "./components/layouts/LayoutBase";
 
-const { Content } = Layout;
+const InicioView = lazy(() => import('./views/InicioView'));
+const HomeView = lazy(() => import('./views/HomeView'));
 
-const App = () => {
-  const isFetching = useIsFetching();
-  const isMutating = useIsMutating();
-  const isManualLoading = useLoaderStore((state) => state.isLoading);
-  const isLoadingGlobally = isManualLoading || isFetching > 0 || isMutating > 0;
+const CatalogView = lazy(() => import ('./views/users/CatalogView'));
+const CrudExampleView = lazy(() => import('./modules/crudExample/CrudExampleView'));
 
-  return (
-    <AntdApp>
-      <Layout className="page-shell" style={{ minHeight: '100vh' }}>
-        <GlobalLoader loading={isLoadingGlobally} />
+function AppContent() {
+    return (
+        <Suspense fallback={<GifLoader showStatus={true}/>}>
+            <Routes>
+                <Route path="/" element={<LayoutAuth/>}>
+                    <Route index element={<HomeView/>} />
+                </Route>
+                <Route element={<LayoutBase/>}>
+                    <Route path="inicio" element={<InicioView />}/>
+                    <Route path="informacion" element={<CatalogView />}/>
+                    <Route path="ejemplo-crud" element={<CrudExampleView />}/>
+                </Route>
+                <Route path="*" element={<Navigate to="/" replace/>}/>
+            </Routes>
+        </Suspense>
+    );
+}
 
-        <RefreshTokenModal />
+function App() {
+    const {notification} = AntdApp.useApp();
 
-        <Content className="main-content">
-          <AppRoutes />
-        </Content>
-      </Layout>
-    </AntdApp>
-  );
-};
+    return (
+        <NotificationContext.Provider value={notification}>
+            <AppContent />
+        </NotificationContext.Provider>
+    );
+}
 
 export default App;

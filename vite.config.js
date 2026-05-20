@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'build',
-    chunkSizeWarningLimit: 650,
+    chunkSizeWarningLimit: 1100,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -14,7 +14,12 @@ export default defineConfig({
             return
           }
 
-          if (id.includes('antd') || id.includes('@ant-design')) {
+          if (
+            id.includes('/node_modules/antd') ||
+            id.includes('/node_modules/@ant-design/') ||
+            id.includes('/node_modules/rc-') ||
+            id.includes('/node_modules/@rc-component/')
+          ) {
             return 'antd-vendor'
           }
 

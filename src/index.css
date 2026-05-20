@@ -1,3 +1,10 @@
+@import url('./assets/styles/components.css');
+@import url('./assets/styles/views.css');
+
+html {
+  scroll-behavior: smooth;
+}
+
 *,
 *::after,
 *::before {

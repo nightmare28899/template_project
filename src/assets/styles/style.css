@@ -19,7 +19,7 @@
 }
 
 @font-face {
-    font-family: "Gibson-Regular";
+    font-family: "Gibson-Regular", sans-serif;
     src: url("../../assets/fonts/Gibson-Regular.otf");
 }
 
@@ -33,10 +33,13 @@
     src: url("../../assets/fonts/Gibson-Thin.otf");
 }
 
-html, body, #root {
+html,
+body,
+#root {
     height: 100%;
     margin: 0;
     padding: 0;
+    scrollbar-width: none; 
 }
 
 :root {
@@ -46,14 +49,12 @@ html, body, #root {
     --black: #000000;
     --blue: #1946bb;
     --light-blue: #4b73f0;
-    --guinda: #4a001f;
-    /* --guinda: #8d949e; */
+    --guinda: #3A0B1E;
+    --gold: #BD9868;
+    --guindaHover: #6B002C;
     --rosaClaro: #ffe6ec;
-    /* --rosaClaro: #ccd0d5; */
     --rosaAlert: #ffe6ec;
-    /* --rosaAlert: #ccd0d5; */
     --morado: #6a0f49;
-    /* --morado: #8d949e; */
     --orage: #fdde80;
     --warning: #f9e8c6;
     --light-orange: #ffaf17;
@@ -98,8 +99,7 @@ html, body, #root {
 * {
     margin: 0px;
     padding: 0px;
-    /* border:1px solid red; */
-    font-family: "Gibson-Regular";
+    font-family: "Gibson-Regular", sans-serif;
     letter-spacing: 1.1px;
 }
 
@@ -116,34 +116,47 @@ a:focus-visible {
 }
 
 body {
-    font-family: "Gibson-Regular";
+    font-family: "Gibson-Regular", sans-serif;
     letter-spacing: 1.1px;
     font-weight: 500;
-    /* overflow: scroll;  */
-}
-
-.backgrounPlaca {
-    background-image: url('@/assets/images/placa.png');
-    background-size: cover;
-    height: 25px;
 }
 
 .my-menu-text-black .ant-menu-item,
 .my-menu-text-black .ant-menu-submenu-title,
-.my-menu-text-black .ant-menu-item > a {
+.my-menu-text-black .ant-menu-item>a {
     color: black !important;
 }
 
 .my-menu-text-black .ant-menu-item:hover,
 .my-menu-text-black .ant-menu-submenu-title:hover,
-.my-menu-text-black .ant-menu-item > a:hover {
+.my-menu-text-black .ant-menu-item>a:hover {
     color: black !important;
 }
 
 .my-menu-text-black .ant-menu-item-selected,
 .my-menu-text-black .ant-menu-submenu-title-selected,
-.my-menu-text-black .ant-menu-item-selected > a {
+.my-menu-text-black .ant-menu-item-selected>a {
     color: black !important;
+}
+
+.ant-table-thead th.ant-table-column-sort {
+    background: var(--guinda) !important;
+}
+
+.ant-table-thead th.ant-table-column-has-sorters:hover {
+    background: var(--guindaHover) !important;
+}
+
+.ant-table-column-sorter-inner {
+    color: var(--white) !important;
+}
+
+.ant-table-column-sorter-up.active {
+    color: var(--light-blue) !important;
+}
+
+.ant-table-column-sorter-down.active {
+    color: var(--light-blue) !important;
 }
 
 :where(.css-dev-only-do-not-override-1d4w9r2).ant-layout-header {
@@ -151,5 +164,85 @@ body {
     padding: 0 50px;
     color: rgba(0, 0, 0, 0.88);
     line-height: 0;
-    background: #001529;
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--guindaHover) !important;
+}
+
+.ant-tabs .ant-tabs-ink-bar {
+    background: var(--guindaHover) !important;
+}
+
+.ant-tabs .ant-tabs-tab:hover {
+    color: var(--guindaHover) !important;
+}
+
+.ant-tabs-card .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--white) !important;
+}
+
+.ant-btn-primary {
+    background-color: var(--guindaHover) !important;
+    border-color: var(--guindaHover) !important;
+    color: var(--white) !important;
+}
+
+.ant-btn-primary:hover {
+    background-color: var(--guinda) !important;
+    border-color: var(--guinda) !important;
+    color: var(--gray-20) !important;
+}
+
+.ant-btn-default {
+    background-color: var(--white) !important;
+    color: var(--black) !important;
+    border-color: var(--gray-10) !important;
+}
+
+.ant-btn-default:hover {
+    background-color: var(--gray-25) !important;
+    color: var(--black) !important;
+    border-color: var(--gray-25) !important;
+}
+
+.ant-avatar {
+    background-color: var(--white) !important;
+    color: var(--black) !important;
+    border-color: var(--gray-10) !important;
+    cursor: pointer;
+}
+
+.ant-avatar:hover {
+    background-color: var(--gray-25) !important;
+    color: var(--black) !important;
+    border-color: var(--gray-25) !important;
+}
+
+.white-placeholder .ant-input::placeholder {
+    color: var(--gray-10) !important;
+}
+
+.gray-placeholder .ant-input::placeholder {
+    color: var(--gray-30) !important;
+}
+
+.ant-radio-button-wrapper {
+    background-color: var(--white) !important;
+    color: var(--black) !important;
+    border-color: var(--gray-10) !important;
+}
+
+.ant-radio-button-wrapper:hover {
+    background-color: var(--gray-25) !important;
+    color: var(--black) !important;
+    border-color: var(--gray-25) !important;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    border-color: var(--guindaHover) !important;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+    border-color: var(--guinda) !important;
 }
