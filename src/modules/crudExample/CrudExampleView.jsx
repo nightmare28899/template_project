@@ -143,7 +143,7 @@ const CrudExampleView = () => {
                 <h2 style={{ fontSize: '20px', fontWeight: 600, margin: 0, color: '#4A001F' }}>Ejemplo</h2>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px', marginTop: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px', marginTop: '10px' }}>
                 <div style={{ display: 'flex' }}>
                     <div style={{ minWidth: '150px', maxWidth: '250px', width: '100%' }}>
                         <Button type="primary" block icon={<PlusOutlined />} onClick={() => setIsModalOpen(true)} style={{ backgroundColor: '#4D0621' }}>
@@ -153,7 +153,7 @@ const CrudExampleView = () => {
                 </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
                 <Tooltip title="Escribe al menos 4 caracteres">
                     <Search
                         placeholder="Buscar..."
