@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Button, Card, Form, Input, Popconfirm, Select, Space, Table, Tag, Typography, Modal } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Card, Form, Input, Popconfirm, Select, Space, Table, Tag, Typography, Modal, Pagination, ConfigProvider, Tooltip, Switch } from "antd";
+import { DeleteOutlined, EditOutlined, PlusOutlined, FrownOutlined } from "@ant-design/icons";
 import { useCrudExample } from "@/modules/crudExample/useCrudExample";
 
 const { Title, Text } = Typography;
+const { Search } = Input;
 
 const initialValues = {
     nombre: "",
@@ -15,6 +16,9 @@ const CrudExampleView = () => {
     const [form] = Form.useForm();
     const [editingRecord, setEditingRecord] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [searchText, setSearchText] = useState("");
     const {
         records,
         total,
@@ -71,39 +75,93 @@ const CrudExampleView = () => {
         },
         {
             title: "Acciones",
-            key: "actions",
-            align: "right",
+            key: "acciones",
+            fixed: "right",
+            align: "center",
             render: (_, record) => (
                 <Space>
-                    <Button
-                        type="text"
-                        icon={<EditOutlined />}
-                        onClick={() => handleEdit(record)}
-                    />
+                    <Tooltip title="Editar">
+                        <Button
+                            type="text"
+                            icon={<EditOutlined />}
+                            onClick={() => handleEdit(record)}
+                            disabled={record.estatus !== "activo"}
+                        />
+                    </Tooltip>
+
                     <Popconfirm
-                        title="Eliminar registro"
-                        description="Esta accion elimina el registro de la simulacion."
-                        okText="Eliminar"
-                        cancelText="Cancelar"
-                        onConfirm={() => deleteRecord(record.id)}
-                    >
-                        <Button type="text" danger icon={<DeleteOutlined />} />
+                        title="¿Cambiar estado del registro?"
+                        description={record.estatus === "activo" ? "El registro quedará inactivo" : "El registro quedará activo"}
+                        okText="Sí"
+                        cancelText="No"
+                        onConfirm={() => updateRecord({ id: record.id, values: { ...record, estatus: record.estatus === "activo" ? "inactivo" : "activo" } })}
+                        placement="top"
+                    >   
+                        <Tooltip title={record.estatus === "activo" ? "Desactivar" : "Activar"}>
+                            <Switch
+                                checked={record.estatus === "activo"}
+                                onClick={(checked, e) => {
+                                    e.preventDefault();
+                                }}
+                                size="small"
+                                style={{ backgroundColor: record.estatus === "activo" ? "#10B981" : "#bfbfbf" }}
+                            />
+                        </Tooltip>
                     </Popconfirm>
                 </Space>
             ),
         },
     ];
 
+    const handleSearchChange = (e) => {
+        setSearchText(e.target.value);
+        setCurrentPage(1);
+    };
+
+    const filteredRecords = records.filter(record => {
+        if (!searchText || searchText.length < 4) return true;
+        const lowerSearch = searchText.toLowerCase();
+        return (
+            (record.nombre && record.nombre.toLowerCase().includes(lowerSearch)) ||
+            (record.correo && record.correo.toLowerCase().includes(lowerSearch)) ||
+            (record.estatus && record.estatus.toLowerCase().includes(lowerSearch))
+        );
+    });
+
+    const paginatedRecords = filteredRecords.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+    const handlePageChange = (page, size) => {
+        const isSizeChange = Number(size) !== Number(pageSize);
+        const targetPage = isSizeChange ? 1 : page;
+        setCurrentPage(targetPage);
+        setPageSize(size);
+    };
+
     return (
         <div className="crud-example-view">
-            <div className="crud-example-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <div>
-                    <Title level={3} style={{ margin: 0 }}>Ejemplo CRUD</Title>
-                    <Text type="secondary">{total} registros</Text>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '5px', borderBottom: '2px solid #4A001F' }}>
+                <h2 style={{ fontSize: '20px', fontWeight: 600, margin: 0, color: '#4A001F' }}>Ejemplo</h2>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px', marginTop: '20px' }}>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ minWidth: '150px', maxWidth: '250px', width: '100%' }}>
+                        <Button type="primary" block icon={<PlusOutlined />} onClick={() => setIsModalOpen(true)} style={{ backgroundColor: '#4D0621' }}>
+                            Agregar Registro
+                        </Button>
+                    </div>
                 </div>
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalOpen(true)}>
-                    Agregar Registro
-                </Button>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+                <Tooltip title="Escribe al menos 4 caracteres">
+                    <Search
+                        placeholder="Buscar..."
+                        allowClear
+                        onChange={handleSearchChange}
+                        style={{ width: '280px' }}
+                    />
+                </Tooltip>
             </div>
 
             <Modal
@@ -167,12 +225,45 @@ const CrudExampleView = () => {
                 </Form>
             </Modal>
 
-            <Table
-                rowKey="id"
-                columns={columns}
-                dataSource={records}
-                loading={isLoading}
-                pagination={{ pageSize: 5 }}
+            <ConfigProvider
+                theme={{
+                    components: {
+                        Table: {
+                            headerBg: "#4D0621",
+                            headerColor: "#FFFFFF",
+                        },
+                    },
+                }}
+                renderEmpty={() => (
+                    <div style={{ textAlign: 'center', padding: '20px' }}>
+                        <FrownOutlined style={{ fontSize: 20, color: '#bfbfbf', marginBottom: '8px' }} />
+                        <p style={{ color: '#bfbfbf', margin: 0 }}>No se encontró información</p>
+                    </div>
+                )}
+            >
+                <Table
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={paginatedRecords}
+                    loading={isLoading}
+                    pagination={false}
+                    bordered
+                />
+            </ConfigProvider>
+            
+            <Pagination
+                current={currentPage}
+                pageSize={pageSize}
+                total={filteredRecords.length}
+                showSizeChanger
+                onChange={handlePageChange}
+                showTotal={(total) => `Total ${total} registros`}
+                pageSizeOptions={[10, 20, 50, 100]}
+                size="default"
+                className="table-pagination"
+                disabled={isLoading || filteredRecords.length === 0}
+                locale={{ items_per_page: '/ página' }}
+                style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}
             />
         </div>
     );
