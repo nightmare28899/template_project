@@ -39,7 +39,7 @@ const Header = () => {
                                 {title}
                             </Typography.Text>
                             <Typography.Text className="header-title-sub">
-                                Template Base
+                                Gobierno del Estado de Michoacán
                             </Typography.Text>
                         </Col>
                     </Col>
@@ -58,11 +58,11 @@ const Header = () => {
 
                             {screens.lg && (
                                 <>
-                                    <a style={navItemStyle}>
+                                    <a onClick={() => navigate('/')} style={navItemStyle}>
                                         Trámites
                                     </a>
-                                    <a onClick={() => window.open("https://ejemplo.com/", "_blank")} style={navItemStyle}>
-                                        Organización
+                                    <a onClick={() => window.open("https://michoacan.gob.mx/", "_blank")} style={navItemStyle}>
+                                        Gobierno
                                     </a>
                                 </>
                             )}

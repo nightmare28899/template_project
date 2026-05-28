@@ -7,7 +7,7 @@ export const useHeader = () => {
     const { setShowMenu } = useMenuStore();
 
     // Mock data for purely visual purposes
-    const mockUser = user || { nombre: "Usuario Demo", rol: "Ciudadano" };
+    const mockUser = user || { nombre: "Ciudadano Ventanilla", rol: "Ciudadano" };
     const mockToken = token || "mock-token";
 
     const getInitials = (name) => {

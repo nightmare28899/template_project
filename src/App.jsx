@@ -14,7 +14,7 @@ const CrudExampleView = lazy(() => import('./modules/crudExample/CrudExampleView
 
 function AppContent() {
     return (
-        <Suspense fallback={<GifLoader showStatus={true}/>}>
+        <Suspense fallback={<GifLoader showStatus={false}/>}>
             <Routes>
                 <Route path="/" element={<LayoutAuth/>}>
                     <Route index element={<HomeView/>} />

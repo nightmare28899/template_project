@@ -25,6 +25,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    min-width: 0;
 }
 
 .header-logo-icon {
@@ -397,67 +398,6 @@
 /* =====================================================
    VENTANILLA TEMPLATE VIEW
    ===================================================== */
-.header-root {
-    background-color: #3A0B1E;
-    border-bottom: 4px solid #BD9868;
-    height: 85px;
-    padding: 0 40px;
-    display: flex;
-    align-items: center;
-    line-height: normal;
-}
-
-.header-logo-col {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    min-width: 0;
-}
-
-.header-logo-icon {
-    cursor: pointer;
-    width: 165px;
-    height: 60px;
-}
-
-.ant-typography.header-title-main {
-    color: #fff;
-    letter-spacing: .5px;
-    font-size: 18px;
-    font-weight: 500;
-    display: block;
-}
-
-.ant-typography.header-title-sub {
-    color: #ffffff;
-    font-size: 12px;
-    opacity: 0.85;
-    display: block;
-}
-
-.header-actions-col .ant-space {
-    min-width: max-content;
-}
-
-.header-user-avatar.ant-avatar {
-    color: #111111;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    font-family: "Gibson-Bold", sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    cursor: pointer;
-}
-
-.header-login-button.ant-btn,
-.header-mobile-menu-button.ant-btn {
-    border-color: #ffffff;
-    color: #111111;
-    background: #ffffff;
-}
-
 .layout-base-container {
     height: 100dvh;
     background: #f4f4f4;
@@ -633,50 +573,12 @@
 }
 
 @media (max-width: 991px) {
-    .header-root {
-        height: 92px;
-        padding: 0 18px;
-    }
-
-    .header-logo-icon {
-        width: 150px;
-        height: 54px;
-    }
-
-    .ant-typography.header-title-main {
-        font-size: 18px;
-    }
-
-    .ant-typography.header-title-sub {
-        font-size: 12px;
-        letter-spacing: 1px;
-        margin-top: 5px;
-    }
-
     .layout-base-main {
         padding: 18px;
     }
 }
 
 @media (max-width: 575px) {
-    .header-logo-col {
-        gap: 10px;
-    }
-
-    .header-logo-icon {
-        width: 112px;
-        height: 42px;
-    }
-
-    .ant-typography.header-title-main {
-        max-width: 140px;
-        font-size: 14px;
-    }
-
-    .ant-typography.header-title-sub {
-        display: none;
-    }
-
     .layout-base-card.ant-card,
     .layout-base-card--inicio > .ant-card-body,
     .inicio-example-view {

@@ -89,7 +89,6 @@
 
 .timeline-step-title {
     margin-inline: 20px;
-    font-size: 18px;
 }
 
 .timeline-step-desc {
@@ -132,7 +131,6 @@
 
 .timeline-mobile-title {
     margin: 0;
-    font-size: 18px;
 }
 
 .timeline-desktop-spacer {
@@ -231,6 +229,14 @@
 
 .home-hero--main {
     height: 470px;
+}
+
+.home-hero--template-root {
+    height: 640px;
+}
+
+.home-template-content {
+    margin-bottom: 0;
 }
 
 .ant-typography.home-hero-title {
@@ -396,7 +402,6 @@
 .ant-typography.home-service-card-title {
     margin: 0;
     color: #fff;
-    font-size: 18px;
 }
 
 .home-service-card-icon {
@@ -611,7 +616,6 @@
 .ant-typography.public-procedures-card-title {
     margin-top: 0;
     margin-bottom: 12px;
-    font-size: 18px;
 }
 
 .public-procedures-card-desc {
@@ -640,7 +644,6 @@
 .ant-typography.public-procedures-drawer-title {
     color: var(--guinda);
     font-weight: bold;
-    font-size: 18px;
 }
 
 .public-procedures-pagination {

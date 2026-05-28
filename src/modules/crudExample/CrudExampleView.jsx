@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Form, Input, Popconfirm, Select, Space, Table, Tag, Typography } from "antd";
+import { Button, Card, Form, Input, Popconfirm, Select, Space, Table, Tag, Typography, Modal } from "antd";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useCrudExample } from "@/modules/crudExample/useCrudExample";
 
@@ -14,6 +14,7 @@ const initialValues = {
 const CrudExampleView = () => {
     const [form] = Form.useForm();
     const [editingRecord, setEditingRecord] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const {
         records,
         total,
@@ -26,6 +27,7 @@ const CrudExampleView = () => {
 
     const resetForm = () => {
         setEditingRecord(null);
+        setIsModalOpen(false);
         form.resetFields();
         form.setFieldsValue(initialValues);
     };
@@ -43,6 +45,7 @@ const CrudExampleView = () => {
     const handleEdit = (record) => {
         setEditingRecord(record);
         form.setFieldsValue(record);
+        setIsModalOpen(true);
     };
 
     const columns = [
@@ -93,69 +96,76 @@ const CrudExampleView = () => {
 
     return (
         <div className="crud-example-view">
-            <div className="crud-example-header">
-                <Title level={3}>Ejemplo CRUD</Title>
-                <Text type="secondary">{total} registros</Text>
+            <div className="crud-example-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div>
+                    <Title level={3} style={{ margin: 0 }}>Ejemplo CRUD</Title>
+                    <Text type="secondary">{total} registros</Text>
+                </div>
+                <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalOpen(true)}>
+                    Agregar Registro
+                </Button>
             </div>
 
-            <Card className="crud-example-form-card">
+            <Modal
+                title={editingRecord ? "Editar Registro" : "Nuevo Registro"}
+                open={isModalOpen}
+                onCancel={resetForm}
+                footer={null}
+                destroyOnClose
+            >
                 <Form
                     form={form}
                     layout="vertical"
                     initialValues={initialValues}
                     onFinish={handleSubmit}
                 >
-                    <div className="crud-example-form-grid">
-                        <Form.Item
-                            label="Nombre"
-                            name="nombre"
-                            rules={[{ required: true, message: "Ingresa el nombre" }]}
-                        >
-                            <Input />
-                        </Form.Item>
+                    <Form.Item
+                        label="Nombre"
+                        name="nombre"
+                        rules={[{ required: true, message: "Ingresa el nombre" }]}
+                    >
+                        <Input placeholder="Ingresa el nombre" />
+                    </Form.Item>
 
-                        <Form.Item
-                            label="Correo"
-                            name="correo"
-                            rules={[
-                                { required: true, message: "Ingresa el correo" },
-                                { type: "email", message: "Ingresa un correo valido" },
+                    <Form.Item
+                        label="Correo"
+                        name="correo"
+                        rules={[
+                            { required: true, message: "Ingresa el correo" },
+                            { type: "email", message: "Ingresa un correo valido" },
+                        ]}
+                    >
+                        <Input placeholder="ejemplo@correo.com" />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Estatus"
+                        name="estatus"
+                        rules={[{ required: true, message: "Selecciona el estatus" }]}
+                    >
+                        <Select
+                            placeholder="Selecciona un estatus"
+                            options={[
+                                { label: "Activo", value: "activo" },
+                                { label: "Inactivo", value: "inactivo" },
                             ]}
-                        >
-                            <Input />
-                        </Form.Item>
+                        />
+                    </Form.Item>
 
-                        <Form.Item
-                            label="Estatus"
-                            name="estatus"
-                            rules={[{ required: true, message: "Selecciona el estatus" }]}
-                        >
-                            <Select
-                                options={[
-                                    { label: "Activo", value: "activo" },
-                                    { label: "Inactivo", value: "inactivo" },
-                                ]}
-                            />
-                        </Form.Item>
-                    </div>
-
-                    <Space>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
+                        <Button onClick={resetForm}>
+                            Cancelar
+                        </Button>
                         <Button
                             type="primary"
                             htmlType="submit"
-                            icon={<PlusOutlined />}
                             loading={isSaving}
                         >
                             {editingRecord ? "Guardar cambios" : "Agregar"}
                         </Button>
-                        {editingRecord && (
-                            <Button onClick={resetForm}>
-                                Cancelar
-                            </Button>
-                        )}
-                    </Space>
+                    </div>
                 </Form>
-            </Card>
+            </Modal>
 
             <Table
                 rowKey="id"

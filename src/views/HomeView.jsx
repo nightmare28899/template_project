@@ -1,68 +1,79 @@
-import { Image, Typography, theme } from "antd";
-import logo from "@/assets/images/llave-michoacan-fondo.png";
+import React from "react";
+import { Button, Flex, Input, Layout, Row, Tooltip, Typography, Grid } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import logoCatedral from "@/assets/images/catedral-morelia.png";
 import "@/assets/styles/views.css";
 
-const { Title, Text } = Typography;
+const { Content } = Layout;
+const { Title } = Typography;
+const { Search } = Input;
+const { useBreakpoint } = Grid;
 
-const welcomeText = "Bienvenido a Proyecto Base";
-
-const particles = Array.from({ length: 60 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 10 + 4,
-    x: Math.random() * 100,
-    drift: Math.random() * 60 - 30,
-    duration: Math.random() * 6 + 5,
-    delay: Math.random() * 4,
-    opacity: Math.random() * 0.18 + 0.06,
-}));
-
-const HomeView = () => {
-    const { token } = theme.useToken();
-    const guinda = token.guinda || token.colorPrimary || "#4D0621";
+const InputSearch = React.memo(({ screens }) => {
+    const [inputValue, setInputValue] = React.useState("");
 
     return (
-        <div className="home-welcome-view" style={{ "--home-guinda": guinda }}>
-            {particles.map((particle) => (
-                <span
-                    key={particle.id}
-                    className="home-welcome-particle"
-                    style={{
-                        left: `${particle.x}%`,
-                        width: particle.size,
-                        height: particle.size,
-                        opacity: particle.opacity,
-                        animationDuration: `${particle.duration}s`,
-                        animationDelay: `${particle.delay}s`,
-                        "--particle-drift": `${particle.drift}px`,
+        <Row
+            justify="center"
+            align="middle"
+            className={`home-search-row ${screens.ms ? "home-search-row--full" : "home-search-row--partial"}`}
+        >
+            <Tooltip title="Al menos 4 caracteres" placement="top">
+                <Search
+                    value={inputValue}
+                    onChange={(event) => setInputValue(event.target.value)}
+                    variant="borderless"
+                    className="gray-placeholder home-search-input"
+                    placeholder="Realiza una búsqueda de cualquier trámite o servicio..."
+                    size="medium"
+                    onSearch={setInputValue}
+                    enterButton={
+                        <Button
+                            type="primary"
+                            icon={<SearchOutlined />}
+                            className="home-search-btn"
+                        >
+                            Buscar
+                        </Button>
+                    }
+                    styles={{
+                        input: {
+                            color: "#fff",
+                            backgroundColor: "transparent",
+                        },
                     }}
                 />
-            ))}
+            </Tooltip>
+        </Row>
+    );
+});
 
-            <div className="home-welcome-logo-wrapper">
-                <Image
-                    preview={false}
-                    src={logo}
-                    alt="Proyecto Base"
-                    className="home-welcome-logo"
-                />
-            </div>
+InputSearch.displayName = "InputSearch";
 
-            <Title level={2} className="home-welcome-title">
-                {welcomeText.split("").map((char, index) => (
-                    <span
-                        key={`${char}-${index}`}
-                        className="home-welcome-title-char"
-                        style={{ animationDelay: `${0.3 + index * 0.03}s` }}
-                    >
-                        {char}
-                    </span>
-                ))}
-            </Title>
+const HomeView = () => {
+    const screens = useBreakpoint();
 
-            <Text type="secondary" className="home-welcome-subtitle">
-                Selecciona una opción del menú para continuar
-            </Text>
-        </div>
+    return (
+        <Layout className="home-layout">
+            <Content className="home-content home-template-content">
+                <Flex
+                    vertical
+                    align="center"
+                    justify="center"
+                    gap={24}
+                    className="home-hero home-hero--main"
+                    style={{
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${logoCatedral})`,
+                    }}
+                >
+                    <Title level={1} className="home-hero-title">
+                        Ventanilla Digital de Michoacán
+                    </Title>
+                    <InputSearch screens={screens} />
+                </Flex>
+
+            </Content>
+        </Layout>
     );
 };
 
